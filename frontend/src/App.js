@@ -16,51 +16,91 @@ import {
 import './App.css';
 
 // 3D Floating Product Component
-const FloatingProduct = ({ position = [0, 0, 0], rotation = [0, 0, 0] }) => {
+const FloatingProduct = ({ position = [0, 0, 0], rotation = [0, 0, 0], color = "#f8f7f4", name = "Organic Cotton Tee", price = "$45" }) => {
   const meshRef = useRef();
-  const { viewport } = useThree();
   
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
       meshRef.current.rotation.y += 0.01;
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.8) * 0.1;
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.8) * 0.15;
     }
   });
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+    <Float speed={1.5} rotationIntensity={0.8} floatIntensity={0.8}>
       <group ref={meshRef} position={position} rotation={rotation}>
-        <Box args={[0.8, 1.2, 0.1]} position={[0, 0, 0]}>
+        {/* Main product shape */}
+        <Box args={[1.2, 1.6, 0.15]} position={[0, 0, 0]}>
           <MeshDistortMaterial
-            color="#f8f7f4"
+            color={color}
             attach="material"
-            distort={0.2}
-            speed={2}
-            roughness={0.2}
+            distort={0.3}
+            speed={1.5}
+            roughness={0.1}
+            metalness={0.1}
           />
         </Box>
-        <Text
-          position={[0, -0.8, 0.1]}
-          fontSize={0.1}
-          color="#2d3436"
-          anchorX="center"
-          anchorY="middle"
-          font="/fonts/inter-medium.woff"
-        >
-          Organic Cotton Tee
-        </Text>
+        
+        {/* Eco badge */}
+        <Box args={[0.4, 0.15, 0.05]} position={[0.4, 0.6, 0.1]}>
+          <meshStandardMaterial color="#22c55e" />
+        </Box>
+        
+        {/* Product name */}
         <Text
           position={[0, -1, 0.1]}
-          fontSize={0.08}
-          color="#636e72"
+          fontSize={0.12}
+          color="#1f2937"
           anchorX="center"
           anchorY="middle"
+          maxWidth={2}
         >
-          $45
+          {name}
+        </Text>
+        
+        {/* Price */}
+        <Text
+          position={[0, -1.3, 0.1]}
+          fontSize={0.1}
+          color="#059669"
+          anchorX="center"
+          anchorY="middle"
+          font-weight="bold"
+        >
+          {price}
         </Text>
       </group>
     </Float>
+  );
+};
+
+// 3D Particle System
+const Particles = () => {
+  const particlesRef = useRef();
+  
+  useFrame((state) => {
+    if (particlesRef.current) {
+      particlesRef.current.rotation.y += 0.001;
+    }
+  });
+
+  return (
+    <group ref={particlesRef}>
+      {Array.from({ length: 50 }).map((_, i) => (
+        <Sphere key={i} args={[0.015]} position={[
+          (Math.random() - 0.5) * 15,
+          (Math.random() - 0.5) * 15,
+          (Math.random() - 0.5) * 8
+        ]}>
+          <meshBasicMaterial 
+            color="#22c55e" 
+            transparent 
+            opacity={Math.random() * 0.6 + 0.2} 
+          />
+        </Sphere>
+      ))}
+    </group>
   );
 };
 
