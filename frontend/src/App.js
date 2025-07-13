@@ -16,7 +16,7 @@ import {
 import './App.css';
 
 // 3D Floating Product Component
-const FloatingProduct = ({ position = [0, 0, 0], rotation = [0, 0, 0], color = "#f8f7f4", name = "Organic Cotton Tee", price = "$45" }) => {
+const FloatingProduct = ({ position = [0, 0, 0], rotation = [0, 0, 0], color = "#f8f7f4" }) => {
   const meshRef = useRef();
   
   useFrame((state) => {
@@ -46,30 +46,6 @@ const FloatingProduct = ({ position = [0, 0, 0], rotation = [0, 0, 0], color = "
         <Box args={[0.4, 0.15, 0.05]} position={[0.4, 0.6, 0.1]}>
           <meshStandardMaterial color="#22c55e" />
         </Box>
-        
-        {/* Product name */}
-        <Text
-          position={[0, -1, 0.1]}
-          fontSize={0.12}
-          color="#1f2937"
-          anchorX="center"
-          anchorY="middle"
-          maxWidth={2}
-        >
-          {name}
-        </Text>
-        
-        {/* Price */}
-        <Text
-          position={[0, -1.3, 0.1]}
-          fontSize={0.1}
-          color="#059669"
-          anchorX="center"
-          anchorY="middle"
-          font-weight="bold"
-        >
-          {price}
-        </Text>
       </group>
     </Float>
   );
