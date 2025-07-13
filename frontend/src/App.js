@@ -316,6 +316,7 @@ const Header = ({ cartItems, toggleCart, user, toggleMobileMenu, mobileMenuOpen 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isPlaying) {
@@ -326,9 +327,25 @@ const HeroSection = () => {
     }
   }, [isPlaying]);
 
+  const handleShopCollection = () => {
+    // Smooth scroll to featured products section
+    const featuredSection = document.querySelector('#featured-products');
+    if (featuredSection) {
+      featuredSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleWatchStory = () => {
+    // Smooth scroll to brand story section
+    const storySection = document.querySelector('#brand-story');
+    if (storySection) {
+      storySection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-green-50 via-white to-green-50">
-      {/* 3D Background */}
+      {/* Enhanced 3D Background */}
       <Scene3D />
       
       {/* Content Overlay */}
@@ -352,22 +369,39 @@ const HeroSection = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center space-x-2">
+            <button 
+              onClick={handleShopCollection}
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl flex items-center space-x-2 group"
+            >
               <span>Shop Collection</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
             </button>
             
-            <button className="flex items-center space-x-2 text-slate-700 hover:text-green-600 font-medium transition-colors duration-200">
-              <Play className="w-5 h-5" />
+            <button 
+              onClick={handleWatchStory}
+              className="flex items-center space-x-2 text-slate-700 hover:text-green-600 font-medium transition-colors duration-200 group px-6 py-3 border border-slate-300 rounded-full hover:border-green-600"
+            >
+              <Play className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
               <span>Watch Our Story</span>
             </button>
+          </div>
+          
+          {/* 3D Interaction Hint */}
+          <div className="mt-12 animate-pulse">
+            <p className="text-sm text-slate-500 mb-2">Interactive 3D Experience</p>
+            <div className="flex items-center justify-center space-x-4 text-xs text-slate-400">
+              <span>🖱️ Drag to rotate</span>
+              <span>⚡ Auto-rotating products</span>
+              <span>🌱 Sustainable materials</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Enhanced scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center">
+        <div className="w-6 h-10 border-2 border-slate-400 rounded-full flex justify-center hover:border-green-600 transition-colors duration-300 cursor-pointer"
+             onClick={() => document.querySelector('#shop-categories').scrollIntoView({ behavior: 'smooth' })}>
           <div className="w-1 h-3 bg-slate-400 rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
