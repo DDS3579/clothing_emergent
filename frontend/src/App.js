@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Text, Box, Sphere, MeshDistortMaterial, Environment, Float, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls, Box, Sphere, MeshDistortMaterial, Environment, Float, PerspectiveCamera } from '@react-three/drei';
 import * as THREE from 'three';
 import { 
   Search, ShoppingCart, Heart, User, Menu, Star, ChevronDown, 
