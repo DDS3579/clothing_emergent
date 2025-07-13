@@ -107,29 +107,46 @@ const Particles = () => {
 // 3D Scene Background
 const Scene3D = () => {
   return (
-    <div className="absolute inset-0 w-full h-full">
-      <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+    <div className="absolute inset-0 w-full h-full opacity-80">
+      <Canvas camera={{ position: [0, 0, 6], fov: 60 }}>
         <Suspense fallback={null}>
-          <ambientLight intensity={0.6} />
-          <pointLight position={[10, 10, 10]} intensity={0.8} />
+          <ambientLight intensity={0.8} />
+          <pointLight position={[10, 10, 10]} intensity={1.2} />
+          <pointLight position={[-10, -10, -5]} intensity={0.5} color="#22c55e" />
           <Environment preset="studio" />
           
-          <FloatingProduct position={[2, 0, 0]} rotation={[0, -0.5, 0]} />
-          <FloatingProduct position={[-2, 1, -1]} rotation={[0, 0.5, 0]} />
-          <FloatingProduct position={[1, -1.5, -0.5]} rotation={[0, 1, 0]} />
+          <FloatingProduct 
+            position={[3, 1, 0]} 
+            rotation={[0, -0.5, 0]} 
+            color="#f8f7f4"
+            name="Organic Tee"
+            price="$45"
+          />
+          <FloatingProduct 
+            position={[-3, -1, -1]} 
+            rotation={[0, 0.5, 0]} 
+            color="#e2ded0"
+            name="Hemp Joggers" 
+            price="$65"
+          />
+          <FloatingProduct 
+            position={[2, -2, -0.5]} 
+            rotation={[0, 1, 0]} 
+            color="#d4d4aa"
+            name="Wool Sweater"
+            price="$89"
+          />
           
-          {/* Floating particles */}
-          {Array.from({ length: 20 }).map((_, i) => (
-            <Sphere key={i} args={[0.02]} position={[
-              (Math.random() - 0.5) * 10,
-              (Math.random() - 0.5) * 10,
-              (Math.random() - 0.5) * 5
-            ]}>
-              <meshBasicMaterial color="#e2ded0" transparent opacity={0.6} />
-            </Sphere>
-          ))}
+          <Particles />
           
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+          <OrbitControls 
+            enableZoom={false} 
+            enablePan={false} 
+            autoRotate 
+            autoRotateSpeed={0.3}
+            enableDamping
+            dampingFactor={0.05}
+          />
         </Suspense>
       </Canvas>
     </div>
