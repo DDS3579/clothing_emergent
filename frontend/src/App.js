@@ -95,22 +95,16 @@ const Scene3D = () => {
             position={[3, 1, 0]} 
             rotation={[0, -0.5, 0]} 
             color="#f8f7f4"
-            name="Organic Tee"
-            price="$45"
           />
           <FloatingProduct 
             position={[-3, -1, -1]} 
             rotation={[0, 0.5, 0]} 
             color="#e2ded0"
-            name="Hemp Joggers" 
-            price="$65"
           />
           <FloatingProduct 
             position={[2, -2, -0.5]} 
             rotation={[0, 1, 0]} 
             color="#d4d4aa"
-            name="Wool Sweater"
-            price="$89"
           />
           
           <Particles />
