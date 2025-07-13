@@ -158,6 +158,7 @@ const Header = ({ cartItems, toggleCart, user, toggleMobileMenu, mobileMenuOpen 
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -177,7 +178,7 @@ const Header = ({ cartItems, toggleCart, user, toggleMobileMenu, mobileMenuOpen 
 
   return (
     <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'
+      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white/90 backdrop-blur-sm'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
@@ -202,27 +203,56 @@ const Header = ({ cartItems, toggleCart, user, toggleMobileMenu, mobileMenuOpen 
               >
                 <Link
                   to={`/category/${category.slug}`}
-                  className="flex items-center space-x-1 text-slate-700 hover:text-green-600 font-medium transition-colors duration-200"
+                  className="flex items-center space-x-1 text-slate-700 hover:text-green-600 font-medium transition-colors duration-200 py-2"
                 >
                   <span>{category.name}</span>
                   <ChevronDown className="w-4 h-4" />
                 </Link>
                 
-                {/* Mega Menu */}
+                {/* Enhanced Mega Menu */}
                 {activeCategory === category.id && (
-                  <div className="absolute top-full left-0 w-64 bg-white shadow-xl rounded-lg border border-slate-200 py-4 mt-2 transform animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-80 bg-white shadow-2xl rounded-2xl border border-slate-200 py-6 mt-2 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
+                    {/* Header with category image */}
+                    <div className="px-6 mb-4">
+                      <div className="relative h-24 rounded-xl overflow-hidden mb-4">
+                        <img 
+                          src={category.image} 
+                          alt={category.name}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <h3 className="absolute bottom-2 left-3 text-lg font-bold text-white">
+                          {category.name}
+                        </h3>
+                      </div>
+                    </div>
+                    
+                    {/* Subcategories Grid */}
                     <div className="px-6">
-                      <h3 className="text-lg font-semibold text-slate-800 mb-3">{category.name}</h3>
-                      <div className="space-y-2">
+                      <div className="grid grid-cols-2 gap-3">
                         {category.subcategories.map((subcategory, index) => (
                           <Link
                             key={index}
                             to={`/category/${category.slug}/${subcategory.toLowerCase()}`}
-                            className="block text-slate-600 hover:text-green-600 py-1 transition-colors duration-200"
+                            className="group flex items-center space-x-3 p-3 rounded-xl hover:bg-green-50 transition-all duration-200 border border-transparent hover:border-green-200"
                           >
-                            {subcategory}
+                            <div className="w-2 h-2 bg-green-500 rounded-full group-hover:scale-150 transition-transform duration-200"></div>
+                            <span className="text-slate-700 group-hover:text-green-700 font-medium text-sm">
+                              {subcategory}
+                            </span>
                           </Link>
                         ))}
+                      </div>
+                      
+                      {/* View All Link */}
+                      <div className="mt-4 pt-4 border-t border-slate-100">
+                        <Link
+                          to={`/category/${category.slug}`}
+                          className="flex items-center justify-center space-x-2 w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-200 font-semibold"
+                        >
+                          <span>View All {category.name}</span>
+                          <ChevronRight className="w-4 h-4" />
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -234,7 +264,7 @@ const Header = ({ cartItems, toggleCart, user, toggleMobileMenu, mobileMenuOpen 
           {/* Right side icons */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <div className="hidden md:flex items-center bg-slate-100 rounded-full px-4 py-2 max-w-xs">
+            <div className="hidden md:flex items-center bg-slate-100 rounded-full px-4 py-2 max-w-xs focus-within:ring-2 focus-within:ring-green-300 transition-all duration-200">
               <Search className="w-4 h-4 text-slate-500 mr-2" />
               <input
                 type="text"
@@ -246,23 +276,23 @@ const Header = ({ cartItems, toggleCart, user, toggleMobileMenu, mobileMenuOpen 
             </div>
 
             {/* User */}
-            <button className="p-2 hover:bg-slate-100 rounded-full transition-colors duration-200">
-              <User className="w-5 h-5 text-slate-700" />
+            <button className="p-2 hover:bg-slate-100 rounded-full transition-colors duration-200 group">
+              <User className="w-5 h-5 text-slate-700 group-hover:text-green-600" />
             </button>
 
             {/* Wishlist */}
-            <button className="p-2 hover:bg-slate-100 rounded-full transition-colors duration-200 relative">
-              <Heart className="w-5 h-5 text-slate-700" />
+            <button className="p-2 hover:bg-slate-100 rounded-full transition-colors duration-200 relative group">
+              <Heart className="w-5 h-5 text-slate-700 group-hover:text-red-500 transition-colors duration-200" />
             </button>
 
             {/* Cart */}
             <button 
               onClick={toggleCart}
-              className="p-2 hover:bg-slate-100 rounded-full transition-colors duration-200 relative"
+              className="p-2 hover:bg-slate-100 rounded-full transition-colors duration-200 relative group"
             >
-              <ShoppingCart className="w-5 h-5 text-slate-700" />
+              <ShoppingCart className="w-5 h-5 text-slate-700 group-hover:text-green-600" />
               {cartItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
                   {cartItems.length}
                 </span>
               )}
